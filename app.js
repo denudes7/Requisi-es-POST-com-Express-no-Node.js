@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
-  res.send('Oi, mundo :-)');
+  res.send('Ola, Mundo !!');
 });
 
 app.post('/dados-gerais', (req, res) => {
@@ -17,11 +17,11 @@ app.post('/dados-gerais', (req, res) => {
 });
 
 app.post('/dados-com-nome-email', (req, res) => {
-  const nome = req.body.nome;
+  const nome =  req.body.nome;
   const email = req.body.email;
-  const data = req.body;
-  console.log("Dados recebidos: ", data);
-  res.send("Requisicao POST bem-sucedida! Nome: " + data.nome + ", E-mail: " + data.email);
+  const data =  req.body;
+  console.log("Dados recebidos : ", data);
+  res.send("Requisicao POST bem-sucedida!!! Nome: " + data.nome + ", E-mail: " + data.email);
 });
 
 app.post('/formulario', (req, res) => {
