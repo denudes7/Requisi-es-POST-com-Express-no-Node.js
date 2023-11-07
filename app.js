@@ -1,49 +1,114 @@
-const express = require('express');
-const app = express();
-const port = 3000;
-const bodyParser = require('body-parser');
 
-app.use(express.json());
+
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
+
+
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
-  res.send('Ola, Mundo !!');
+  res.send('Olá, professor Alzir!');
 });
 
-app.post('/dados-gerais', (req, res) => {
-  const data = req.body;
-  console.log("Dados recebidos: ", data);
-  res.send("Requisicao POST bem-sucedida!");
-});
+var port = 3001;
 
-app.post('/dados-com-nome-email', (req, res) => {
-  const nome =  req.body.nome;
-  const email = req.body.email;
-  const data =  req.body;
-  console.log("Dados recebidos : ", data);
-  res.send("Requisicao POST bem-sucedida!!! Nome: " + data.nome + ", E-mail: " + data.email);
-});
-
-app.post('/formulario', (req, res) => {
-  const dados = req.body;
-  console.log(dados);
-  res.send('Dados recebidos: ' + JSON.stringify(dados));
-});
-
-app.get('/formulario', (req, res) => {
-  res.sendFile(__dirname + '/formulario.html');
-});
-
-app.get('/submit', (req, res) => {
-  res.sendFile(__dirname + '/resposta.html');
-});
-
-app.post('/soma', function (req, res) {
-  var body = req.body;
-  console.log(body);
-  res.send('Response da requisição POST via rota /soma');
-});
-
+// iniciando o processo do servidor
 app.listen(port, function() {
   console.log(`App de Exemplo escutando na porta http://localhost:${port}/`);
+});
+
+// Função para realizar a soma
+function soma(a, b) {
+  return a + b;
+}
+
+// Função para realizar a subtração
+function subtracao(a, b) {
+  return a - b;
+}
+
+// Função para realizar a multiplicação
+function multiplicacao(a, b) {
+  return a * b;
+}
+
+// Função para realizar a divisão
+function divisao(a, b) {
+  if (b === 0) {
+    throw new Error('Não é possível dividir por zero.');
+  }
+  return a / b;
+}
+
+
+app.post('/soma', function (req, res) {
+  
+  if (!req.body.a || !req.body.b) {
+    return res.status(400).json({ error: 'Os parâmetros "a" e "b" são obrigatórios.' });
+  }
+
+  
+  var body = req.body;
+
+  
+  var resultado = soma(body.a, body.b);
+
+  
+  res.send(`O resultado da soma de ${body.a} e ${body.b} é ${resultado}`);
+});
+
+
+app.post('/subtracao', function (req, res) {
+  
+  if (!req.body.a || !req.body.b) {
+    return res.status(400).json({ error: 'Os parâmetros "a" e "b" são obrigatórios.' });
+  }
+
+  
+  var body = req.body;
+
+  
+  var resultado = subtracao(body.a, body.b);
+
+  
+  res.send(`O resultado da subtração de ${body.a} por ${body.b} é ${resultado}`);
+});
+
+
+app.post('/multiplicacao', function (req, res) {
+  
+  if (!req.body.a || !req.body.b) {
+    return res.status(400).json({ error: 'Os parâmetros "a" e "b" são obrigatórios.' });
+  }
+
+  
+  var body = req.body;
+
+ 
+  var resultado = multiplicacao(body.a, body.b);
+
+ 
+  res.send(`O resultado da multiplicação de ${body.a} por ${body.b} é ${resultado}`);
+});
+
+app.post('/divisao', function (req, res) {
+  
+  if (!req.body.a || !req.body.b) {
+    return res.status(400).json({ error: 'Os parâmetros "a" e "b" são obrigatórios.' });
+  }
+
+  
+  var body = req.body;
+
+  try {
+   
+    var resultado = divisao(body.a, body.b);
+
+   
+    res.send(`O resultado da divisão de ${body.a} por ${body.b} é ${resultado}`);
+  } catch (error) {
+   
+    res.status(400).json({ error: error.message });
+  }
 });
